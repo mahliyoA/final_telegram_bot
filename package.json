@@ -1,0 +1,26 @@
+{
+  "name": "final_telegram_bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mahliyoA/final_telegram_bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mahliyoA/final_telegram_bot/issues"
+  },
+  "homepage": "https://github.com/mahliyoA/final_telegram_bot#readme",
+  "description": "",
+  "dependencies": {
+    "mongoose": "^9.0.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "nodemon": "^3.1.11"
+  }
+}
