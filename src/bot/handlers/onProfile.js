@@ -1,18 +1,18 @@
-import { bot } from "../bot.js"
+import { bot } from "../bot.js";
 
 function onProfile(msg) {
-    const chatId = msg.chat.id
+  const chatId = msg.chat.id;
 
   bot.sendMessage(
     chatId,
     `
   SHAXSIY PROFIL:
 
-- CHAT-ID: ??
-- ISMI: ??
-- USERNAME: ??
-- ACTIVE: ??
-- BALANCE: ??
+- CHAT-ID: ???
+- ISMI: ????
+- USERNAME: ????
+- ACTIVE: ???
+- BALANCE: ???  
 `
   );
 }
