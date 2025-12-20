@@ -3,7 +3,8 @@ import "dotenv/config";
 import onStart from "./handlers/onStart.js";
 import onProfile from "./handlers/onProfile.js";
 import onError from "./handlers/onError.js";
-import onCourses from "./handlers/onCourses.js"
+import onCourses from "./handlers/onCourses.js";
+import onLocation from "./handlers/onlacation.js";
 
 export const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
@@ -29,12 +30,7 @@ bot.on("message", async (msg) => {
   const firstname = msg.chat.first_name;
   const text = msg.text;
 
-  // status
-  // creator - yaratuvchi
-  // member - a'zo
-  // admin - adminstrator
-  // left - tark etgan
-  // kicked - chiqarib yuborilgan
+
 
   const user_subscribed = await checkIfUserSubscribed(chatId);
 
@@ -66,41 +62,89 @@ bot.on("message", async (msg) => {
   }
 
   if (text == "/start") {
-    return onStart(msg);
-  }
+        return onStart(msg);
+    } else if (text == "/profile") {
+        return onProfile(msg);
+    } else if (text == "📚 Kurslar") {
+        return onCourses(msg)
+    }else if (text == "ℹ️ Markaz haqida"){
+        return onLocation(msg);
+    }else if (text == "ℹ️ Markaz haqida"){
+      return onLocation(msg)
+    }
 
-  if (text == "/profile") {
-    return onProfile(msg);
-  }
-  
-  if (text == "📚 Kurslar") {
-    return onCourses(msg)
-  }
-
-  return onError(msg);
+    return onError(msg);
 });
 
 bot.on("callback_query", async (query) => {
-  const msg = query.message;
-  const data = query.data;
-  const queryId = query.id;
+    const msg = query.message;
+    const data = query.data;
+    const queryId = query.id;
 
-  const chatId = msg.chat.id;
-  const firstname = msg.chat.first_name;
+    const chatId = msg.chat.id;
+    const firstname = msg.chat.first_name;
 
-  if (data == "confirm_subscribtion") {
-    console.log("TUGMA BOSILDIII");
-    const user_subscribed = await checkIfUserSubscribed(chatId);
+    if (data == "confirm_subscribtion") {
+        console.log("TUGMA BOSILDIII");
+        const user_subscribed = await checkIfUserSubscribed(chatId);
 
-    if (user_subscribed == false) {
-      return bot.answerCallbackQuery(queryId, {
-        text: "Siz hali obuna bo'lmadingiz... ❌",
-      });
-    } else {
-      bot.deleteMessage(chatId, msg.message_id);
-      return onStart(msg);
+        if (user_subscribed == false) {
+            return bot.answerCallbackQuery(queryId, {
+                text: "Siz hali obuna bo'lmadingiz... ❌",
+            });
+        } else {
+            bot.deleteMessage(chatId, msg.message_id);
+            return onStart(msg);
+        }
     }
-  }
+    if (data == "course_english") {
+        bot.sendMessage(chatId, `
+     🇬🇧 Ingliz tili kursi haqida:
+
+📆 Davomiyligi: 3 oy  
+⏰ Darslar: Haftasiga 3 marta (1,5 soatdan)  
+👨‍🏫 O‘qituvchi: Tajribali filologlar  
+💰 Narxi: 350 000 so‘m / oy
+
+✍️ Agar sizni bu kurs qiziqtirsa, “Ro‘yxatdan o‘tish” tugmasini bosing.
+ `,
+
+        );
+    } else if (data == "course_russian") {
+        bot.sendMessage(chatId,
+            ` 🇬🇧 Rustili tili kursi haqida:
+
+📆 Davomiyligi: 3 oy  
+⏰ Darslar: Haftasiga 3 marta (1,5 soatdan)  
+👨‍🏫 O‘qituvchi: Tajribali filologlar  
+💰 Narxi: 350 000 so‘m / oy
+
+✍️ Agar sizni bu kurs qiziqtirsa, “Ro‘yxatdan o‘tish” tugmasini bosing.
+            `)
+    } else if (data == "course_math"){
+        bot.sendMessage(chatId,
+            `🇬🇧 Matematika kursi haqida:
+
+📆 Davomiyligi: 3 oy  
+⏰ Darslar: Haftasiga 3 marta (1,5 soatdan)  
+👨‍🏫 O‘qituvchi: Tajribali filologlar  
+💰 Narxi: 350 000 so‘m / oy
+
+✍️ Agar sizni bu kurs qiziqtirsa, “Ro‘yxatdan o‘tish” tugmasini bosing.`
+        )
+    }else if (data=="course_programming"){
+        bot.sendMessage(chatId,
+            `🇬🇧 Dasturlash kursi haqida:
+            📆 Davomiyligi: 3 oy  
+⏰ Darslar: Haftasiga 3 marta (1,5 soatdan)  
+👨‍🏫 O‘qituvchi: Tajribali filologlar  
+💰 Narxi: 350 000 so‘m / oy
+
+✍️ Agar sizni bu kurs qiziqtirsa, “Ro‘yxatdan o‘tish” tugmasini bosing bizning...`
+        )
+    }
+    
+
 });
 
 console.log("Bot ishga tushdi...");
